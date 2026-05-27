@@ -75,3 +75,15 @@ textarea {
   border-color: rgba(252, 211, 77, 0.55);
   box-shadow: 0 14px 38px rgba(245, 158, 11, 0.18);
 }
+
+@keyframes auroraShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.lux-aurora {
+  background: linear-gradient(120deg, rgba(251,191,36,0.16), rgba(29,78,216,0.08), rgba(251,191,36,0.16));
+  background-size: 200% 200%;
+  animation: auroraShift 9s ease infinite;
+}

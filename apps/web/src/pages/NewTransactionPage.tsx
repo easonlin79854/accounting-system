@@ -79,7 +79,7 @@ export function NewTransactionPage() {
       {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
       <form className="space-y-4 lux-card rounded-lg p-4" onSubmit={onSubmit}>
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 xl:grid-cols-2">
           <label className="min-w-0 text-sm text-gray-300">
             日期
             <input
