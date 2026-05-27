@@ -15,18 +15,16 @@ function normalizeBaseUrl(base: string) {
   return base.endsWith('/') ? base.slice(0, -1) : base
 }
 
-function buildCandidateUrls(path: string) {
+function buildCandidateUrls(path: string, method: string) {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`
   const configuredBase = normalizeBaseUrl(API_BASE_URL)
   const withoutApiPrefix = normalizedPath.startsWith('/api/') ? normalizedPath.slice(4) : normalizedPath
 
-  const candidates = [
-    `${configuredBase}${normalizedPath}`,
-    `/api${withoutApiPrefix}`,
-    normalizedPath,
-    withoutApiPrefix,
-  ]
+  const primary = [`${configuredBase}${normalizedPath}`, `/api${withoutApiPrefix}`]
+  const readFallback = [normalizedPath, withoutApiPrefix]
+  const includeReadFallback = method.toUpperCase() === 'GET'
 
+  const candidates = includeReadFallback ? [...primary, ...readFallback] : primary
   return Array.from(new Set(candidates.filter(Boolean)))
 }
 
@@ -39,10 +37,13 @@ async function parseError(response: Response) {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const urls = buildCandidateUrls(path)
+  const method = init?.method ?? 'GET'
+  const urls = buildCandidateUrls(path, method)
   let response: Response | undefined
+  const tried: string[] = []
 
   for (const url of urls) {
+    tried.push(url)
     response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -62,14 +63,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
   if (!response) throw new Error('Request failed: no response')
   const payload = await parseError(response)
-  throw new Error(payload?.error ?? `Request failed: ${response.status}`)
+  const errorMessage = payload?.error ?? `Request failed: ${response.status}`
+  throw new Error(`${errorMessage} (${method.toUpperCase()} ${tried.join(' -> ')})`)
 }
 
 async function requestForm<T>(path: string, init: RequestInit): Promise<T> {
-  const urls = buildCandidateUrls(path)
+  const method = init.method ?? 'POST'
+  const urls = buildCandidateUrls(path, method)
   let response: Response | undefined
+  const tried: string[] = []
 
   for (const url of urls) {
+    tried.push(url)
     response = await fetch(url, init)
     if (response.ok) return (await response.json()) as T
     if (response.status !== 404 && response.status !== 405) break
@@ -77,7 +82,8 @@ async function requestForm<T>(path: string, init: RequestInit): Promise<T> {
 
   if (!response) throw new Error('Request failed: no response')
   const payload = await parseError(response)
-  throw new Error(payload?.error ?? `Request failed: ${response.status}`)
+  const errorMessage = payload?.error ?? `Request failed: ${response.status}`
+  throw new Error(`${errorMessage} (${method.toUpperCase()} ${tried.join(' -> ')})`)
 }
 
 export function listTransactions(params: { month?: string; currency?: string }) {
