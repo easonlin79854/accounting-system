@@ -8,6 +8,11 @@ import type {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
+function normalizeBaseUrl(base: string) {
+  if (!base) return ''
+  return base.endsWith('/') ? base.slice(0, -1) : base
+}
+
 type ApiError = { error: string }
 
 function normalizeBaseUrl(base: string) {
