@@ -40,6 +40,13 @@ corepack prepare pnpm@9.12.0 --activate
 pnpm install
 ```
 
+可依需要先複製環境範例：
+
+```bash
+cp apps/web/.env.example apps/web/.env
+cp apps/api/.dev.vars.example apps/api/.dev.vars
+```
+
 ### 2) 啟動前端（Vite）
 
 ```bash

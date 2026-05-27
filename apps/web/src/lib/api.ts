@@ -6,6 +6,7 @@ import type {
   TransactionRecord,
 } from '@accounting/shared'
 
+// Default '/api' is intended for Pages + Worker on the same domain/route.
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
 type ApiError = { error: string }

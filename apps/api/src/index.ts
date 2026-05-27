@@ -224,7 +224,7 @@ app.post('/api/transactions/:id/attachments', async (c) => {
   }
 
   const attachmentId = crypto.randomUUID()
-  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+  const safeName = toSafeFilename(file.name)
   const key = `${transactionId}/${attachmentId}-${safeName}`
 
   await c.env.ATTACHMENTS.put(key, await file.arrayBuffer(), {
@@ -391,6 +391,21 @@ async function upsertTag(db: D1Database, name: string, now: string): Promise<Tag
   await db.prepare('INSERT INTO tags (id, name, color, created_at) VALUES (?, ?, ?, ?)').bind(id, name, null, now).run()
 
   return { id, name, color: null }
+}
+
+function toSafeFilename(filename: string): string {
+  const parts = filename.split('.')
+  const extension = parts.length > 1 ? parts.pop() ?? '' : ''
+  const base = parts.join('.')
+
+  const safeBase = base.replace(/[^a-zA-Z0-9_-]/g, '_').replace(/_+/g, '_').slice(0, 80)
+  const safeExtension = extension.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10)
+
+  if (safeExtension) {
+    return `${safeBase || 'file'}.${safeExtension}`
+  }
+
+  return safeBase || 'file'
 }
 
 app.notFound((c) => c.json({ error: 'Not Found' }, 404))

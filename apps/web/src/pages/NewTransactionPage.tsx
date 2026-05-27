@@ -7,7 +7,9 @@ function todayValue() {
   return new Date().toISOString().slice(0, 10)
 }
 
-const maxAttachmentBytes = 10 * 1024 * 1024
+const parsedAttachmentLimit = Number.parseInt(import.meta.env.VITE_MAX_ATTACHMENT_SIZE_MB ?? '10', 10)
+const maxAttachmentSizeMb = Number.isFinite(parsedAttachmentLimit) && parsedAttachmentLimit > 0 ? parsedAttachmentLimit : 10
+const maxAttachmentBytes = maxAttachmentSizeMb * 1024 * 1024
 
 export function NewTransactionPage() {
   const [date, setDate] = useState(todayValue)
@@ -53,7 +55,7 @@ export function NewTransactionPage() {
 
       for (const file of files) {
         if (file.size > maxAttachmentBytes) {
-          throw new Error(`${file.name} 超過 10MB 限制`)
+          throw new Error(`${file.name} 超過 ${maxAttachmentSizeMb}MB 限制`)
         }
         await uploadAttachment(transaction.data.id, file)
       }
