@@ -28,28 +28,28 @@ export function DashboardPage() {
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-gray-900">月彙總 Dashboard</h2>
+        <h2 className="text-xl font-semibold text-gray-100">月彙總 Dashboard</h2>
         <input
           type="month"
-          className="rounded-md border border-amber-300 bg-white px-3 py-2"
+          className="rounded-md border border-gray-600 bg-gray-900/80 px-3 py-2"
           value={month}
           onChange={(event) => setMonth(event.target.value)}
         />
       </div>
 
-      {error ? <p className="rounded-md bg-red-100 px-3 py-2 text-red-700">{error}</p> : null}
+      {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
         {rows.map((row) => (
-          <article key={row.currency} className="rounded-lg border border-amber-200 bg-white p-4 shadow-sm">
-            <h3 className="text-lg font-medium text-gray-900">{row.currency}</h3>
-            <p className="mt-2 text-emerald-700">收入：{row.incomeTotal}</p>
-            <p className="text-rose-700">支出：{row.expenseTotal}</p>
+          <article key={row.currency} className="rounded-lg border border-gray-700 bg-gray-900/80 p-4 shadow-sm">
+            <h3 className="text-lg font-medium text-gray-100">{row.currency}</h3>
+            <p className="mt-2 text-emerald-300">收入：{row.incomeTotal}</p>
+            <p className="text-rose-300">支出：{row.expenseTotal}</p>
           </article>
         ))}
       </div>
 
-      <p className="text-sm text-gray-700">淨額（各幣別原幣加總展示）：{totals}</p>
+      <p className="text-sm text-gray-300">淨額（各幣別原幣加總展示）：{totals}</p>
     </section>
   )
 }

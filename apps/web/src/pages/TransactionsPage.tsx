@@ -23,34 +23,34 @@ export function TransactionsPage() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-900">交易列表</h2>
+      <h2 className="text-xl font-semibold text-gray-100">交易列表</h2>
       <div className="flex flex-wrap gap-3">
-        <label className="text-sm text-gray-700">
+        <label className="text-sm text-gray-300">
           月份
           <input
             type="month"
-            className="ml-2 rounded-md border border-amber-300 bg-white px-2 py-1"
+            className="ml-2 rounded-md border border-gray-600 bg-gray-900/80 px-2 py-1"
             value={month}
             onChange={(event) => setMonth(event.target.value)}
           />
         </label>
-        <label className="text-sm text-gray-700">
+        <label className="text-sm text-gray-300">
           幣別
           <input
             type="text"
             placeholder="例如 TWD"
-            className="ml-2 rounded-md border border-amber-300 bg-white px-2 py-1"
+            className="ml-2 rounded-md border border-gray-600 bg-gray-900/80 px-2 py-1"
             value={currency}
             onChange={(event) => setCurrency(event.target.value.toUpperCase())}
           />
         </label>
       </div>
 
-      {error ? <p className="rounded-md bg-red-100 px-3 py-2 text-red-700">{error}</p> : null}
+      {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
-      <div className="overflow-x-auto rounded-lg border border-amber-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-gray-700 bg-gray-900/80">
         <table className="min-w-full text-sm">
-          <thead className="bg-amber-100 text-left text-gray-700">
+          <thead className="bg-gray-800 text-left text-gray-300">
             <tr>
               <th className="px-3 py-2">日期</th>
               <th className="px-3 py-2">類型</th>
@@ -62,7 +62,7 @@ export function TransactionsPage() {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="border-t border-amber-100">
+              <tr key={row.id} className="border-t border-gray-700">
                 <td className="px-3 py-2">{row.date}</td>
                 <td className="px-3 py-2">{row.type}</td>
                 <td className="px-3 py-2">{row.amount} {row.currency}</td>
