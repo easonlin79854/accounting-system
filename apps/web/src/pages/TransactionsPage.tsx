@@ -29,7 +29,7 @@ export function TransactionsPage() {
           月份
           <input
             type="month"
-            className="ml-2 rounded-md border border-gray-600 bg-gray-900/80 px-2 py-1"
+            className="ml-2 lux-focus rounded-md border border-amber-300/40 bg-gray-900/90 px-2 py-1 text-amber-100"
             value={month}
             onChange={(event) => setMonth(event.target.value)}
           />
@@ -39,7 +39,7 @@ export function TransactionsPage() {
           <input
             type="text"
             placeholder="例如 TWD"
-            className="ml-2 rounded-md border border-gray-600 bg-gray-900/80 px-2 py-1"
+            className="ml-2 lux-focus rounded-md border border-amber-300/40 bg-gray-900/90 px-2 py-1 text-amber-100"
             value={currency}
             onChange={(event) => setCurrency(event.target.value.toUpperCase())}
           />
@@ -48,9 +48,9 @@ export function TransactionsPage() {
 
       {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
-      <div className="overflow-x-auto rounded-lg border border-gray-700 bg-gray-900/80">
+      <div className="lux-card overflow-x-auto rounded-lg">
         <table className="min-w-full text-sm">
-          <thead className="bg-gray-800 text-left text-gray-300">
+          <thead className="bg-amber-300/10 text-left text-amber-100">
             <tr>
               <th className="px-3 py-2">日期</th>
               <th className="px-3 py-2">類型</th>

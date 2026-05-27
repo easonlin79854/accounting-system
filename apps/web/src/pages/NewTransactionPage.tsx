@@ -78,14 +78,14 @@ export function NewTransactionPage() {
       {message ? <p className="rounded-md bg-emerald-500/15 px-3 py-2 text-emerald-300">{message}</p> : null}
       {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
-      <form className="space-y-4 rounded-lg border border-gray-700 bg-gray-900/80 p-4" onSubmit={onSubmit}>
-        <div className="grid gap-3 sm:grid-cols-2">
+      <form className="space-y-4 lux-card rounded-lg p-4" onSubmit={onSubmit}>
+        <div className="grid gap-4 sm:grid-cols-2">
           <label className="text-sm text-gray-300">
             日期
             <input
               required
               type="date"
-              className="mt-1 w-full rounded-md border border-gray-600 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={date}
               onChange={(event) => setDate(event.target.value)}
             />
@@ -93,7 +93,7 @@ export function NewTransactionPage() {
           <label className="text-sm text-gray-300">
             類型
             <select
-              className="mt-1 w-full rounded-md border border-gray-600 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 appearance-none rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={type}
               onChange={(event) => setType(event.target.value as 'income' | 'expense')}
             >
@@ -107,7 +107,7 @@ export function NewTransactionPage() {
               required
               min={0}
               type="number"
-              className="mt-1 w-full rounded-md border border-gray-600 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={amount}
               onChange={(event) => setAmount(Number(event.target.value))}
             />
@@ -117,7 +117,7 @@ export function NewTransactionPage() {
             <input
               required
               maxLength={3}
-              className="mt-1 w-full rounded-md border border-gray-600 px-3 py-2 uppercase"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100 uppercase"
               value={currency}
               onChange={(event) => setCurrency(event.target.value.toUpperCase())}
             />
@@ -126,7 +126,7 @@ export function NewTransactionPage() {
             商家
             <input
               required
-              className="mt-1 w-full rounded-md border border-gray-600 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={merchant}
               onChange={(event) => setMerchant(event.target.value)}
             />
@@ -134,7 +134,7 @@ export function NewTransactionPage() {
           <label className="text-sm text-gray-300 sm:col-span-2">
             備註
             <textarea
-              className="mt-1 w-full rounded-md border border-gray-600 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={note}
               onChange={(event) => setNote(event.target.value)}
             />
@@ -171,7 +171,7 @@ export function NewTransactionPage() {
           <input
             type="text"
             placeholder="輸入自訂 tags，以逗號分隔"
-            className="w-full rounded-md border border-gray-600 px-3 py-2"
+            className="lux-focus w-full rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
             value={customTags}
             onChange={(event) => setCustomTags(event.target.value)}
           />
@@ -190,7 +190,7 @@ export function NewTransactionPage() {
 
         <button
           type="submit"
-          className="rounded-md bg-amber-500 text-gray-900 px-4 py-2 font-medium transition hover:bg-amber-400"
+          className="lux-glow rounded-md bg-amber-400 px-4 py-2 font-semibold text-gray-900 transition hover:-translate-y-0.5 hover:bg-amber-300"
         >
           建立交易
         </button>

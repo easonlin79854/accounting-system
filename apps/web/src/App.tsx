@@ -14,9 +14,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-gray-100">
-      <header className="border-b border-gray-800/90 bg-gray-950/80 backdrop-blur">
+      <header className="border-b border-amber-300/20 bg-gray-950/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <h1 className="text-lg font-semibold text-gray-100">accounting-system</h1>
+          <h1 className="text-lg font-semibold text-amber-200">accounting-system</h1>
           <nav className="flex gap-2 text-sm">
             {navItems.map((item) => {
               const isActive = location.pathname === item.to
@@ -26,8 +26,8 @@ function App() {
                   to={item.to}
                   className={`rounded-md px-3 py-1.5 transition ${
                     isActive
-                      ? 'bg-amber-400/20 text-amber-300'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-gray-100'
+                      ? 'lux-glow bg-amber-300/20 text-amber-200'
+                      : 'text-gray-300 hover:bg-amber-300/10 hover:text-amber-100'
                   }`}
                 >
                   {item.label}
