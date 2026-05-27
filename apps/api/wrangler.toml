@@ -4,8 +4,8 @@ compatibility_date = "2026-05-27"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "accounting-db"
-database_id = "replace-with-your-d1-database-id"
+database_name = "accounting_db"
+database_id = "c1bc7d54-ca1e-4eab-9e3f-e44bf44bc07a"
 migrations_dir = "migrations"
 
 [[r2_buckets]]
