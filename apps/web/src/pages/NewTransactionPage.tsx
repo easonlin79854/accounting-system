@@ -73,27 +73,27 @@ export function NewTransactionPage() {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-900">新增交易</h2>
+      <h2 className="text-xl font-semibold text-gray-100">新增交易</h2>
 
-      {message ? <p className="rounded-md bg-emerald-100 px-3 py-2 text-emerald-700">{message}</p> : null}
-      {error ? <p className="rounded-md bg-red-100 px-3 py-2 text-red-700">{error}</p> : null}
+      {message ? <p className="rounded-md bg-emerald-500/15 px-3 py-2 text-emerald-300">{message}</p> : null}
+      {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
-      <form className="space-y-4 rounded-lg border border-amber-200 bg-white p-4" onSubmit={onSubmit}>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className="text-sm text-gray-700">
+      <form className="space-y-4 lux-card rounded-lg p-4" onSubmit={onSubmit}>
+        <div className="grid gap-4 xl:grid-cols-2">
+          <label className="min-w-0 text-sm text-gray-300">
             日期
             <input
               required
               type="date"
-              className="mt-1 w-full rounded-md border border-amber-300 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={date}
               onChange={(event) => setDate(event.target.value)}
             />
           </label>
-          <label className="text-sm text-gray-700">
+          <label className="min-w-0 text-sm text-gray-300">
             類型
             <select
-              className="mt-1 w-full rounded-md border border-amber-300 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={type}
               onChange={(event) => setType(event.target.value as 'income' | 'expense')}
             >
@@ -101,40 +101,40 @@ export function NewTransactionPage() {
               <option value="income">income</option>
             </select>
           </label>
-          <label className="text-sm text-gray-700">
+          <label className="min-w-0 text-sm text-gray-300">
             金額（最小貨幣單位）
             <input
               required
               min={0}
               type="number"
-              className="mt-1 w-full rounded-md border border-amber-300 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={amount}
               onChange={(event) => setAmount(Number(event.target.value))}
             />
           </label>
-          <label className="text-sm text-gray-700">
+          <label className="min-w-0 text-sm text-gray-300">
             幣別（ISO）
             <input
               required
               maxLength={3}
-              className="mt-1 w-full rounded-md border border-amber-300 px-3 py-2 uppercase"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100 uppercase"
               value={currency}
               onChange={(event) => setCurrency(event.target.value.toUpperCase())}
             />
           </label>
-          <label className="text-sm text-gray-700 sm:col-span-2">
+          <label className="text-sm text-gray-300 sm:col-span-2">
             商家
             <input
               required
-              className="mt-1 w-full rounded-md border border-amber-300 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={merchant}
               onChange={(event) => setMerchant(event.target.value)}
             />
           </label>
-          <label className="text-sm text-gray-700 sm:col-span-2">
+          <label className="text-sm text-gray-300 sm:col-span-2">
             備註
             <textarea
-              className="mt-1 w-full rounded-md border border-amber-300 px-3 py-2"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={note}
               onChange={(event) => setNote(event.target.value)}
             />
@@ -142,7 +142,7 @@ export function NewTransactionPage() {
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-800">Tags（可多選 + 自訂）</p>
+          <p className="text-sm font-medium text-gray-100">Tags（可多選 + 自訂）</p>
           <div className="flex flex-wrap gap-2">
             {allTags.map((tag) => {
               const active = selectedTags.includes(tag.name)
@@ -152,8 +152,8 @@ export function NewTransactionPage() {
                   type="button"
                   className={`rounded-full border px-3 py-1 text-sm ${
                     active
-                      ? 'border-amber-600 bg-amber-200 text-gray-900'
-                      : 'border-amber-200 bg-amber-50 text-gray-700'
+                      ? 'border-amber-400/70 bg-amber-400/20 text-amber-200'
+                      : 'border-gray-700 bg-gray-800/70 text-gray-300'
                   }`}
                   onClick={() =>
                     setSelectedTags((previous) =>
@@ -171,26 +171,26 @@ export function NewTransactionPage() {
           <input
             type="text"
             placeholder="輸入自訂 tags，以逗號分隔"
-            className="w-full rounded-md border border-amber-300 px-3 py-2"
+            className="lux-focus w-full rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
             value={customTags}
             onChange={(event) => setCustomTags(event.target.value)}
           />
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-800">附件（jpg/png/webp/heic/pdf，10MB 內）</p>
+          <p className="text-sm font-medium text-gray-100">附件（jpg/png/webp/heic/pdf，10MB 內）</p>
           <input
             type="file"
             multiple
             accept=".jpg,.jpeg,.png,.webp,.heic,.pdf"
             onChange={(event) => setFiles(Array.from(event.target.files ?? []))}
           />
-          <p className="text-xs text-gray-600">已選 {files.length} 個檔案</p>
+          <p className="text-xs text-gray-400">已選 {files.length} 個檔案</p>
         </div>
 
         <button
           type="submit"
-          className="rounded-md bg-amber-500 px-4 py-2 font-medium text-gray-900 transition hover:bg-amber-400"
+          className="lux-glow rounded-md bg-amber-400 px-4 py-2 font-semibold text-gray-900 transition hover:-translate-y-0.5 hover:bg-amber-300"
         >
           建立交易
         </button>

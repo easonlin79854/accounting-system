@@ -6,31 +6,78 @@ import type {
   TransactionRecord,
 } from '@accounting/shared'
 
-// Default '/api' is intended for Pages + Worker on the same domain/route.
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
 type ApiError = { error: string }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(init?.headers ?? {}),
-    },
-    ...init,
-  })
+function normalizeBaseUrl(base: string) {
+  if (!base) return ''
+  return base.endsWith('/') ? base.slice(0, -1) : base
+}
 
-  if (!response.ok) {
-    let payload: ApiError | null
-    try {
-      payload = (await response.json()) as ApiError
-    } catch {
-      payload = null
+function buildCandidateUrls(path: string) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const configuredBase = normalizeBaseUrl(API_BASE_URL)
+  const withoutApiPrefix = normalizedPath.startsWith('/api/') ? normalizedPath.slice(4) : normalizedPath
+
+  const candidates = [
+    `${configuredBase}${normalizedPath}`,
+    `/api${withoutApiPrefix}`,
+    normalizedPath,
+    withoutApiPrefix,
+  ]
+
+  return Array.from(new Set(candidates.filter(Boolean)))
+}
+
+async function parseError(response: Response) {
+  try {
+    return (await response.json()) as ApiError
+  } catch {
+    return null
+  }
+}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const urls = buildCandidateUrls(path)
+  let response: Response | undefined
+
+  for (const url of urls) {
+    response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(init?.headers ?? {}),
+      },
+      ...init,
+    })
+
+    if (response.ok) {
+      return (await response.json()) as T
     }
-    throw new Error(payload?.error ?? `Request failed: ${response.status}`)
+
+    if (response.status !== 404 && response.status !== 405) {
+      break
+    }
   }
 
-  return (await response.json()) as T
+  if (!response) throw new Error('Request failed: no response')
+  const payload = await parseError(response)
+  throw new Error(payload?.error ?? `Request failed: ${response.status}`)
+}
+
+async function requestForm<T>(path: string, init: RequestInit): Promise<T> {
+  const urls = buildCandidateUrls(path)
+  let response: Response | undefined
+
+  for (const url of urls) {
+    response = await fetch(url, init)
+    if (response.ok) return (await response.json()) as T
+    if (response.status !== 404 && response.status !== 405) break
+  }
+
+  if (!response) throw new Error('Request failed: no response')
+  const payload = await parseError(response)
+  throw new Error(payload?.error ?? `Request failed: ${response.status}`)
 }
 
 export function listTransactions(params: { month?: string; currency?: string }) {
@@ -63,18 +110,11 @@ export function monthlySummary(month: string) {
   return request<{ data: MonthlySummary[] }>(`/reports/monthly?month=${month}`)
 }
 
-export async function uploadAttachment(transactionId: string, file: File) {
+export function uploadAttachment(transactionId: string, file: File) {
   const formData = new FormData()
   formData.append('file', file)
-  const response = await fetch(`${API_BASE_URL}/transactions/${transactionId}/attachments`, {
+  return requestForm<{ data: AttachmentRecord }>(`/transactions/${transactionId}/attachments`, {
     method: 'POST',
     body: formData,
   })
-
-  if (!response.ok) {
-    const payload = (await response.json().catch(() => null)) as ApiError | null
-    throw new Error(payload?.error ?? `Attachment upload failed (${response.status})`)
-  }
-
-  return (await response.json()) as { data: AttachmentRecord }
 }
