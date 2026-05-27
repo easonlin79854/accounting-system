@@ -1,0 +1,16 @@
+name = "accounting-api"
+main = "src/index.ts"
+compatibility_date = "2026-05-27"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "accounting-db"
+database_id = "replace-with-your-d1-database-id"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "ATTACHMENTS"
+bucket_name = "accounting-attachments"
+
+[vars]
+MAX_ATTACHMENT_SIZE_MB = "10"
