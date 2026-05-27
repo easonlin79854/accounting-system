@@ -79,8 +79,8 @@ export function NewTransactionPage() {
       {error ? <p className="rounded-md bg-red-500/15 px-3 py-2 text-red-300">{error}</p> : null}
 
       <form className="space-y-4 lux-card rounded-lg p-4" onSubmit={onSubmit}>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label className="text-sm text-gray-300">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <label className="min-w-0 text-sm text-gray-300">
             日期
             <input
               required
@@ -90,10 +90,10 @@ export function NewTransactionPage() {
               onChange={(event) => setDate(event.target.value)}
             />
           </label>
-          <label className="text-sm text-gray-300">
+          <label className="min-w-0 text-sm text-gray-300">
             類型
             <select
-              className="lux-focus mt-1 block w-full min-w-0 appearance-none rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
+              className="lux-focus mt-1 block w-full min-w-0 rounded-md border border-amber-300/40 bg-gray-900/90 px-3 py-2 text-amber-100"
               value={type}
               onChange={(event) => setType(event.target.value as 'income' | 'expense')}
             >
@@ -101,7 +101,7 @@ export function NewTransactionPage() {
               <option value="income">income</option>
             </select>
           </label>
-          <label className="text-sm text-gray-300">
+          <label className="min-w-0 text-sm text-gray-300">
             金額（最小貨幣單位）
             <input
               required
@@ -112,7 +112,7 @@ export function NewTransactionPage() {
               onChange={(event) => setAmount(Number(event.target.value))}
             />
           </label>
-          <label className="text-sm text-gray-300">
+          <label className="min-w-0 text-sm text-gray-300">
             幣別（ISO）
             <input
               required

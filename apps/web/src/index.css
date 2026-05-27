@@ -57,3 +57,21 @@ textarea {
 .lux-glow {
   animation: glowPulse 2.8s ease-in-out infinite;
 }
+
+@keyframes pageReveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: pageReveal 320ms ease-out;
+}
+
+.lux-card {
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+.lux-card:hover {
+  border-color: rgba(252, 211, 77, 0.55);
+  box-shadow: 0 14px 38px rgba(245, 158, 11, 0.18);
+}
